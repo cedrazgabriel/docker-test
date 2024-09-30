@@ -3,8 +3,8 @@ FROM node:lts-slim
 #Cria uma pasta para o app
 WORKDIR /usr/src/app
 
-#Copia o package.json para a pasta do app
-COPY package.json ./
+#Copia o package.json para a pasta do app (a * é para copiar o package.json e o package-lock.json)
+COPY package*.json ./
 
 #Instala as dependências
 RUN npm install
