@@ -9,17 +9,19 @@ COPY package*.json ./
 #Instala as dependências
 RUN npm install
 
+
 #Copia o resto dos arquivos para a pasta do app
 COPY . .
 
 #Compila o app
 RUN npm run build
-
+RUN npm ci --production && npm cache clean --force
 
 FROM node:lts-alpine3.20
 
 WORKDIR /usr/src/app
 
+COPY --from=build /usr/src/app/package.json ./package.json
 COPY --from=build /usr/src/app/dist ./dist
 COPY --from=build /usr/src/app/node_modules ./node_modules
 
@@ -27,5 +29,5 @@ COPY --from=build /usr/src/app/node_modules ./node_modules
 EXPOSE 3000
 
 #Inicia o app
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "start:prod"]
 
