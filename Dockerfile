@@ -1,4 +1,4 @@
-FROM node:lts-alpine3.20
+FROM node:lts AS build
 
 #Cria uma pasta para o app
 WORKDIR /usr/src/app
@@ -14,6 +14,14 @@ COPY . .
 
 #Compila o app
 RUN npm run build
+
+
+FROM node:lts-alpine3.20
+
+WORKDIR /usr/src/app
+
+COPY --from=build /usr/src/app/dist ./dist
+COPY --from=build /usr/src/app/node_modules ./node_modules
 
 #Expõe a porta 3000
 EXPOSE 3000
