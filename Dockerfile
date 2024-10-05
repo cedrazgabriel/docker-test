@@ -1,4 +1,4 @@
-FROM node:lts-slim
+FROM node:lts-alpine3.20
 
 #Cria uma pasta para o app
 WORKDIR /usr/src/app
